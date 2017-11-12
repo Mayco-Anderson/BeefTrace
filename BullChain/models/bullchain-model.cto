@@ -1,0 +1,101 @@
+/**
+ * Sample business network definition.
+ */
+namespace com.bullchain.model
+
+enum TipoPeca{
+	o PICANHA
+    o MAMINHA
+    o DESCARTE
+    o INTERMEDIARIO
+}
+
+enum RacaBoi{
+  o ANGUS
+  o BROWN_SWISS
+}
+
+/**
+* Qualquer asset com a característica de ser cortado
+**/
+abstract asset Cortavel identified by id {
+  o String id
+  o Double pesoOriginal optional
+  o Double pesoAtual optional
+  o DateTime registro
+  o String[] historia 
+}
+
+asset Boi extends Cortavel {
+	o RacaBoi raca
+    --> Fazenda fazendaCriacao 
+}
+
+asset Peca extends Cortavel {
+	o TipoPeca tipo 
+    --> Cortavel cortavelOrigem
+    --> Boi boi
+}
+
+
+participant Fazenda identified by fazendaId{
+	o String fazendaId
+    o String nome
+    o String descricao
+    --> Boi[] bois optional
+}
+
+participant Frigorifico identified by frigorificoId{
+	o String frigorificoId
+    o String nome
+    --> Boi[] bois optional
+    --> Peca[] pecas optional
+}
+
+participant Mercado identified by mercadoId{
+	o String mercadoId
+    o String nome
+    --> Peca[] pecas optional
+}
+
+transaction registrarBoi{
+ 	o String boiId
+    o RacaBoi racaBoi 
+    --> Fazenda fazenda
+}
+
+transaction atualizarPesoBoi{
+	--> Boi boi
+    --> Frigorifico frigorifico
+    o Double peso
+}
+
+transaction CortarPeca{
+	--> Peca peca
+    --> Frigorifico frigorifico
+    o TipoPeca tipoPeca
+    o Double pesoRetirado
+    o String tagId
+}
+
+transaction CortarBoi{
+	--> Boi boi
+    --> Frigorifico frigorifico
+    o TipoPeca peca
+    o Double pesoCorte
+    o String tagId
+}
+
+transaction transfereBoi{
+ 	--> Fazenda fazenda
+    --> Frigorifico frigorifico
+    --> Boi boi
+    o Double valor
+}
+
+transaction transferePeca{
+	--> Frigorifico frigorifico 
+    --> Mercado mercado
+    --> Peca peca
+    o Double valor
+}
