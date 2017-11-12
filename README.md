@@ -3,6 +3,6 @@ BeefTrace is a blockchain solution for the meat supply chain. It main value prop
 
 The project has 3 folders:
 
-BullChain - the chain code used in the project to be deployed in a Hyperledger
-ScaleAndroidApp - The android app is responsible to communicate and interact with the Scale and to send its data to the Node-Red Server.
-Node-RedIntegration - This is the integration components which links the Android application with the blockchain chaincode.
+* BullChain - the chain code used in the project to be deployed in a Hyperledger
+* ScaleAndroidApp - The android app is responsible to communicate and interact with the Scale and to send its data to the Node-Red Server.
+* Node-RedIntegration - This is the integration components which links the Android application with the blockchain chaincode.
